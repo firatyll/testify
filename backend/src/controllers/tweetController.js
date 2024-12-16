@@ -17,16 +17,31 @@ exports.getTweets = async (req, res, next) => {
   try {
     const { followingOnly } = req.query;
     let filter = {};
+    
     if (followingOnly === 'true') {
       const user = await User.findById(req.user);
       filter = { author: { $in: user.following } };
     }
-    const tweets = await Tweet.find(filter).populate('author', '-password').sort({ createdAt: -1 });
+
+    const tweets = await Tweet.find(filter)
+      .populate('author', '-password')
+      .populate({
+        path: 'replies',
+        populate: {
+          path: 'author',
+          select: '-password -email -createdAt -_id -updatedAt -__v',
+        },
+      })
+      .sort({ createdAt: -1 });
+
     res.json({ tweets });
   } catch (err) {
     next(err);
   }
 };
+
+
+
 
 exports.getTweetById = async (req, res, next) => {
   try {
