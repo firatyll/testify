@@ -27,15 +27,6 @@ jobs:
         working-directory: backend
         run: npm install
 
-      - name: Debug secrets
-        env:
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: |
-          echo "JWT_SECRET: $JWT_SECRET"
-          echo "MONGO_URI: $MONGO_URI"
-
-
       - name: Run tests
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
