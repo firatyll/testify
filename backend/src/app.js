@@ -12,9 +12,6 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(cors());
 
-app.get('/', (req, res) => {
-  res.json({ msg: 'Twitter Clone Backend Running' });
-});
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', userRoutes);
